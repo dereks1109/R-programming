@@ -1,0 +1,213 @@
+---
+title: "Spending of University Students"
+author: "Derek Shek"
+date: "2022-09-22"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+```{r ggplot for penguin data, include=FALSE}
+library(ggplot2)
+library(dplyr)
+library(skimr)
+library(janitor)
+library(tidyr)
+library(knitr)
+```
+
+```{r, include=FALSE}
+uni_df <- read.csv("University Students Monthly Expenses.csv")
+data<-replace(uni_df, uni_df=='', "No") # replace NULL value to 'No'
+data1 <- data %>% drop_na(Study_year) # remove data that omitted the year
+data1[is.na(data1)] <- 0 # resign null Monthly_expenses to 0
+avg_spending <- mean(data1$ Monthly_expenses_.)
+```
+
+## Introduction
+
+In this research, the data of 105 university students spending in university are connected, clean, processed and analysed. This research is analyzing the relationship between their spending with different habits, such as:
+
+* Age
+* Year
+* Gender
+* Living: Where they live, such as: 
+  + Home
+  + Hostel
+* Scholarship: Whether they have Scholarship.
+* Part_time_job: Whether they have part time jobs.
+* Transporting: How to go to school, such as:
+  + "No" meaning walking ro school  
+  + Motorcycle
+  + Car
+* Smoking: Whether they smoke.
+* Drinks Whether they drink.
+* Games_._Hobbies : Whether they have game hobbies.
+* Monthly_Subscription : Whether they have monthly subscription like YouTube, Patron.
+
+## Average spending versus different habits
+The overall average monthly spending of university students is £201.7822, and represented as red line as reference in following graphs of spending of students with different categories:
+
+```{r, include=FALSE}
+df_ages <- 
+  data1 %>%
+  group_by(Age) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_ages, aes(x = Age, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by ages)")
+```
+
+```{r, include=FALSE}
+df_gen <- 
+  data1 %>%
+  group_by(Gender) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_gen, aes(x = Gender, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Gender)")
+```
+
+```{r, include=FALSE}
+df_yr <- 
+  data1 %>%
+  group_by(Study_year) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_yr, aes(x = Study_year, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Study year)")
+```
+
+
+```{r, include=FALSE}
+df_liv <- 
+  data1 %>%
+  group_by(Living  ) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_liv, aes(x = Living, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Type of Living)")
+```
+
+```{r, include=FALSE}
+df_scho <- 
+  data1 %>%
+  group_by(Scholarship) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_scho, aes(x = Scholarship, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Scholarship)")
+```
+
+```{r, include=FALSE}
+df_pt <- 
+  data1 %>%
+  group_by(Part_time_job) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_pt, aes(x = Part_time_job, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Part time job)")
+```
+
+```{r, include=FALSE}
+df_tran <- 
+  data1 %>%
+  group_by(Transporting) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_tran, aes(x = Transporting, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Transporting)")
+```
+
+"No" means students go to university by walking.
+
+```{r, include=FALSE}
+df_smok <- 
+  data1 %>%
+  group_by(Smoking) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_smok, aes(x = Smoking, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Smoking)")
+```
+
+```{r, include=FALSE}
+df_drink <- 
+  data1 %>%
+  group_by(Drinks) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_drink, aes(x = Drinks, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Drinking)")
+```
+
+```{r, include=FALSE}
+df_game <- 
+  data1 %>%
+  group_by(Games_._Hobbies) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_game, aes(x = Games_._Hobbies, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Games Hobbies)")
+```
+
+There is a significant impact of gaming hobbies to the monthly spending of university students.
+
+```{r, include=FALSE}
+df_csc <- 
+  data1 %>%
+  group_by(Cosmetics_._Self.care) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_csc, aes(x = Cosmetics_._Self.care, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Cosmetics Self care)")
+```
+
+```{r, include=FALSE}
+df_subs <- 
+  data1 %>%
+  group_by(Monthly_Subscription) %>%
+  summarise(average_spending=mean(Monthly_expenses_.))
+```
+```{r}
+ggplot(data = df_subs, aes(x = Monthly_Subscription, y = average_spending)) + 
+  geom_bar(stat='identity')+
+  geom_hline(yintercept=avg_spending, linetype="dashed", color = "red")+
+  labs(title="Average Spending(Group by Monthly Subscription)")
+```
